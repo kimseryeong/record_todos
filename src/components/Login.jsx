@@ -22,17 +22,113 @@ const modalStyle = {
 }
 
 const LoginStyle = styled.div`
-    
 `;
 
-export default function Login () {
+const LineStyle = styled.div`
+    color: #a0a0a0;
+    font-size: 16px;
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    margin: 20px 0;
+
+    &:after, &:before {
+        content: "";
+        flex-grow: 1;
+        height: 1px;
+        line-height: 0;
+        margin: 0 16px;
+        background-color: #a0a0a0;
+    }
+`;
+
+const InputContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 10px 20px;
+
+    input{
+        width: 100%;
+        height: 45px;
+        margin: 5px;
+        padding-left: 10px;
+        font-size: 18px;
+        border: 1px solid #ddd;
+    }
+`;
+
+const InputWrap = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const ButtonStyle = styled.div`
+    display: flex;
+    margin-left: auto;
+    justify-content: center;
+    
+    button {
+        width: 80px;
+        height: 35px;
+        font-size: 18px;
+        background-color: white;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        margin: 5px;
+    }
+    button:hover{
+        box-shadow: 1px 1px 1px #ddd;
+        cursor: pointer;
+    }
+
+    .backColor{
+        background-color: #EAF2F8;
+    }
+`;
+
+const GoogleBtn = styled.div`
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    width: 90%;
+    height: 45px;
+    margin: 5px;
+    padding-left: var(--size);
+    font-size: 18px;
+    border: 1px solid #1976D2;
+
+    img{
+        width: 20px;
+        height: 20px;
+        margin: 5px;
+    }
+
+    &:hover{
+        box-shadow: 1px 1px 1px #1976D2;
+        cursor: pointer;
+    }
+`;
+
+const ErrorStyle = styled.span`
+    color: red;
+    padding-left: 33px;
+    text-align: left;
+    font-size: 12px;
+`;
+
+
+export default function Login ({children}) {
     //login modal 
     const [loginOpen, setLoginOpen] = useState(false);
     const loginClick = () => setLoginOpen(true);
-    const closeLogin = () => setLoginOpen(false);
+    const closeLogin = () => {
+        reset();
+        setLoginOpen(false);
+    }
 
     //login form submit
-    const { register, handleSubmit, formState: {errors} } = useForm();
+    const { register, handleSubmit, reset, formState: {errors} } = useForm();
     const onSubmit = async (inputs) => {
 
         const {data, error} = await supabase.auth.signInWithPassword({
@@ -70,7 +166,7 @@ export default function Login () {
 
     return (
         <LoginStyle>
-            <button onClick={loginClick}>{}</button>
+            <button onClick={loginClick}>{children}</button>
 
             <Modal
                 isOpen={loginOpen}
@@ -78,9 +174,9 @@ export default function Login () {
                 style={modalStyle}
             >
             <form onSubmit={handleSubmit(onSubmit)}>
-                <h1>{}</h1>
-                <div className='wrap input-wrap login'>
-                    <div className='input-container'>
+                <h1>{children}</h1>
+                <InputContainer>
+                    <InputWrap>
                         
                         <span className='icon'><FaUser size='25'/></span>
                         
@@ -95,10 +191,10 @@ export default function Login () {
                                             ,message: '이메일 형식을 확인하세요.'}
                             })}
                         />
-                    </div>
-                    {errors.email && <span className='err loginErr'>{ errors.email.message }</span>}
+                    </InputWrap>
+                    {errors.email && <ErrorStyle>{ errors.email.message }</ErrorStyle>}
                     
-                    <div className='input-container'>
+                    <InputWrap>
                         <span className='icon'><GrSecure size='25'/></span>
                         <input 
                             className='input_row' 
@@ -109,21 +205,21 @@ export default function Login () {
                                 required: '비밀번호는 필수입니다.'
                             })}
                         />
-                    </div>
-                    {errors.password && <span className='err loginErr'>{ errors.password.message }</span>}
-                </div>
-                <div className='btn-wrap wrap'>
-                    <button className='btns' onClick={closeLogin}>cancel</button>
-                    <button className='btns backColor' type='submit'>{  }</button>
-                </div>
+                    </InputWrap>
+                    {errors.password && <ErrorStyle>{ errors.password.message }</ErrorStyle>}
+                </InputContainer>
+                <ButtonStyle>
+                    <button onClick={closeLogin}>cancel</button>
+                    <button className='backColor' type='submit'>{ children }</button>
+                </ButtonStyle>
             </form>
 
-            <div className='hr-sect'>or</div>     
+            <LineStyle>or</LineStyle>     
                     
-            <button className='googleBtn' onClick={onGoogleLogin}>
-                <img className='social-logo' src='https://img.icons8.com/?size=100&id=17949&format=png&color=000000' alt='google logo'/>
+            <GoogleBtn onClick={onGoogleLogin}>
+                <img src='https://img.icons8.com/?size=100&id=17949&format=png&color=000000' alt='google logo'/>
                 구글 계정으로 로그인
-            </button>
+            </GoogleBtn>
             </Modal>
         </LoginStyle>
     );

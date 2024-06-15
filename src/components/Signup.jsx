@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase';
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useForm } from 'react-hook-form';
+import styled from 'styled-components';
 
 const modalStyle = {
     overlay: {backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 1000}
@@ -17,15 +18,64 @@ const modalStyle = {
     }
 }
 
+const ButtonStyle = styled.div`
+    display: flex;
+    margin-left: auto;
+    justify-content: center;
+    
+    button {
+        width: 80px;
+        height: 35px;
+        font-size: 18px;
+        background-color: white;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        margin: 5px;
+    }
+    button:hover{
+        box-shadow: 1px 1px 1px #ddd;
+        cursor: pointer;
+    }
 
-export default function Signup () {
+    .backColor{
+        background-color: #EAF2F8;
+    }
+`;
+
+const InputContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 10px 20px;
+
+    input{
+        width: 100%;
+        height: 45px;
+        margin: 5px;
+        padding-left: 10px;
+        font-size: 18px;
+        border: 1px solid #ddd;
+    }
+`;
+
+const ErrorStyle = styled.span`
+    color: red;
+    padding-left: 10px;
+    text-align: left;
+    font-size: 12px;
+`;
+
+export default function Signup ({children}) {
+
     //signup modal
     const [signupOpen, setSignupOpen] = useState(false);
     const signupClick = () => setSignupOpen(true);
-    const closeSignup = () => setSignupOpen(false);
+    const closeSignup = () => {
+        reset();
+        setSignupOpen(false);
+    }
 
     //signup form submit
-    const { register, handleSubmit, formState: {errors}, getValues } = useForm();
+    const { register, handleSubmit, formState: {errors}, getValues, reset } = useForm();
     const onSubmit = async (inputs) => {
         
         //supabase email signup
@@ -39,9 +89,14 @@ export default function Signup () {
         alert('회원가입 되었습니다.');
     }
 
+
+    // const reset = () => {
+    //     setFormData({email: '', password: '', passwordCheck: ''});
+    // }
+
     return (
         <>
-            <button onClick={signupClick}>{}</button>
+            <button onClick={signupClick}>{children}</button>
 
             <Modal
                 isOpen={signupOpen}
@@ -51,9 +106,9 @@ export default function Signup () {
             <form onSubmit={handleSubmit(onSubmit)}>
                 
                 <div className='signin-wrap'>
-                    <h1>{}</h1>
+                    <h1>{children}</h1>
 
-                    <div className='input-wrap wrap'>
+                    <InputContainer>
                         <input 
                             className='input_row' 
                             type='text' 
@@ -65,7 +120,7 @@ export default function Signup () {
                                             ,message: '이메일 형식을 확인하세요.'}
                             })}
                         />
-                        {errors.email && <span className='err'>{ errors.email.message }</span>}
+                        {errors.email && <ErrorStyle>{ errors.email.message }</ErrorStyle>}
                         
                         <input 
                             className='input_row' 
@@ -78,7 +133,7 @@ export default function Signup () {
                                 ,maxLength: {value: 20, message: '20자 이내의 비밀번호를 입력하세요.'}
                             })}
                         />
-                        {errors.password && <span className='err'>{ errors.password.message }</span>}
+                        {errors.password && <ErrorStyle>{ errors.password.message }</ErrorStyle>}
                         
                         <input 
                             className='input_row' 
@@ -95,12 +150,12 @@ export default function Signup () {
                                 }}
                             })}
                         />
-                        {errors.passwordCheck && <span className='err'>{ errors.passwordCheck.message }</span>}
-                    </div>
-                    <div className='btn-wrap wrap'>
-                        <button className='btns' onClick={closeSignup}>cancel</button>
-                        <button className='btns backColor' type='submit'>{  }</button>
-                    </div>
+                        {errors.passwordCheck && <ErrorStyle>{ errors.passwordCheck.message }</ErrorStyle>}
+                    </InputContainer>
+                    <ButtonStyle>
+                        <button onClick={closeSignup}>cancel</button>
+                        <button className='backColor' type='submit'>{ children }</button>
+                    </ButtonStyle>
                 </div>
             </form>
             </Modal>
