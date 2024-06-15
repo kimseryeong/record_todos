@@ -17,11 +17,13 @@ const HeaderStyle = styled.div`
     align-items: center;
     border-bottom: 2px solid #ddd;
     z-index: 100;
+    
 `;
 
 const ButtonStyle = styled.div`
     display: flex;
     margin-left: auto;
+    align-items:center;
     
     button {
         width: 80px;
@@ -31,6 +33,13 @@ const ButtonStyle = styled.div`
         border: 2px solid #ddd;
         border-radius: 5px;
         margin: 5px;
+    }
+
+    span{
+        font-size: 16px;
+        font-weight: 600;
+        margin-right: 10px;
+        background-color: #EAF2F8;
     }
 `;
 
@@ -61,7 +70,7 @@ export default function Header(){
         <HeaderStyle>
             {userInfo ? 
                 <ButtonStyle>
-                    <span className='userEmail backColor'>{ userInfo.user.email }</span>
+                    <span>{ userInfo.user.email }</span>
                     <button>Logout</button>
                 </ButtonStyle>
                 :
