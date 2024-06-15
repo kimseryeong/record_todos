@@ -8,8 +8,6 @@ import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-
-
 const CalendarStyle = styled.div`
     height: 100%;
     width: 60%;

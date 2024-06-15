@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import TodoTemplate from './TodoTemplate';
-import Calendar from './Calendar';
+import Calendar from './Calendar/Calendar';
 
 const MainStyle = styled.div`
     height: 100vh;

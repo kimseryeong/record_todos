@@ -41,6 +41,18 @@ export const FullCalendarStyle = styled.div`
     .fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
         margin-left: 5px;
     }
-
     //button css ------------------------------
+
+    //event css  ------------------------------
+    .fc-daygrid-block-event {    
+        border: none;
+    }
+    .fc-event-main {
+        font-size: 12px;
+        color: black;
+    }
+    .fc-event-title{
+        color: black;
+    }
+    //event css  ------------------------------
 `;
