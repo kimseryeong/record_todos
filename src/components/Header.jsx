@@ -25,11 +25,11 @@ const ButtonStyle = styled.div`
     
     button {
         width: 80px;
-        height: 30px;
+        height: 35px;
         font-size: 18px;
         background-color: white;
         border: 2px solid #ddd;
-        border-radius: var(--size);
+        border-radius: 5px;
         margin: 5px;
     }
 `;
@@ -59,19 +59,17 @@ export default function Header(){
 
     return(
         <HeaderStyle>
-            <ButtonStyle>
-                {userInfo ? 
-                    <>
-                        <span className='userEmail backColor'>{ userInfo.user.email }</span>
-                        <button>Logout</button>
-                    </>
-                    :
-                    <>
-                        <Login>Login</Login>
-                        <Signup>Sign Up</Signup>
-                    </>
-                }
-            </ButtonStyle>
+            {userInfo ? 
+                <ButtonStyle>
+                    <span className='userEmail backColor'>{ userInfo.user.email }</span>
+                    <button>Logout</button>
+                </ButtonStyle>
+                :
+                <ButtonStyle>
+                    <Login>Login</Login>
+                    <Signup>Sign Up</Signup>
+                </ButtonStyle>
+            }
         </HeaderStyle>
     )
 }
